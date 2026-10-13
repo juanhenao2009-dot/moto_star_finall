@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOTOSTAR - Diagnóstico y Telemetría de Motocicletas</title>
+    <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a class="logo" href="index.html"><i class="fa-solid fa-motorcycle"></i> MOTOSTAR</a>
+        <ul class="nav-links">
+            <li><a href="#plataforma">Plataforma</a></li>
+            <li><a href="#diagnostico">Diagnóstico</a></li>
+            <li><a href="#funciones">Funciones</a></li>
+            <li><a href="#app">App móvil</a></li>
+        </ul>
+        <a class="btn-header" id="btnAcceso" href="login.html">ACCEDER AL SISTEMA</a>
+    </nav>
+
+    <section class="hero" id="plataforma">
+        <div class="hero-text">
+            <span class="badge">Diagnóstico en Tiempo Real</span>
+            <h1 class="hero-title">Tu moto habla.<br>Motostar la escucha.</h1>
+            <p class="hero-description">Diagnóstico inteligente, historial completo y alertas críticas en una sola plataforma web y móvil.</p>
+            <div class="hero-cta">
+                <a href="#diagnostico" class="btn-primary">COMENZAR DIAGNÓSTICO <i class="fa-solid fa-arrow-right"></i></a>
+                <div class="btn-link" onclick="openModal('Demostración', 'Cargando video interactivo de prueba del sistema Motostar...')">
+                    <i class="fa-regular fa-circle-play"></i> Ver demo
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-preview">
+            <div class="dash-header">
+                <div class="moto-info">
+                    <div class="moto-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                    <div>
+                        <strong style="display:block; font-size:.95rem;" id="dashMotoTitle">Yamaha MT-07 / AKT NKD 125</strong>
+                        <span style="font-size:.75rem; color:var(--text-muted);">Conectada ahora</span>
+                    </div>
+                </div>
+                <div class="status-tag"><div class="status-dot"></div> EN LÍNEA</div>
+            </div>
+            <div class="dash-stats">
+                <div class="health-ring"><div class="health-ring-inner"><span class="health-value">92%</span><span class="health-label">SALUD</span></div></div>
+                <div class="stat-item"><h4>Batería</h4><p style="color:var(--success);">12.8 V</p></div>
+                <div class="stat-item"><h4>Motor</h4><p>87 °C</p></div>
+                <div class="stat-item"><h4>Recorrido</h4><p>18,420 km</p></div>
+            </div>
+            <div class="dash-alert-box">
+                <div class="alert-details">
+                    <div class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div>
+                        <strong style="display:block; font-size:.85rem;">Presión de aceite irregular</strong>
+                        <span style="font-size:.75rem; color:var(--text-muted);">Detectada hace 4 min - Revisión recomendada</span>
+                    </div>
+                </div>
+                <span class="alert-code">P0521</span>
+            </div>
+            <div class="telemetry-container"><canvas id="telemetryCanvas"></canvas></div>
+        </div>
+    </section>
+
+    <section class="diag-section" id="diagnostico">
+        <div class="diag-container">
+            <div class="diag-header">
+                <span class="subtitle">CONTROL TOTAL, SIN CONJETURAS</span>
+                <h2 class="section-title">De la alerta a la solución,<br>todo queda conectado.</h2>
+            </div>
+
+            <div class="diag-form-card">
+                <h3 style="margin-bottom:1rem; font-size:1.25rem;"><i class="fa-solid fa-stethoscope" style="color:#84cc16;"></i> Asistente de Diagnóstico Rápido</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="motoModel">Marca y Modelo de la Moto:</label>
+                        <input type="text" id="motoModel" class="form-input" placeholder="Ej: AKT NKD 125, Pulsar NS 200, Yamaha MT-07...">
+                    </div>
+                    <div class="form-group">
+                        <label for="symptomDesc">Describe la falla o síntoma:</label>
+                        <textarea id="symptomDesc" class="form-textarea" placeholder="Ej: Me cuesta encender en frío, tiembla mucho al acelerar, humo blanco en el escape, ruido en los frenos..."></textarea>
+                    </div>
+                </div>
+                <button class="btn-analyze" onclick="analizarSintoma()"><i class="fa-solid fa-magnifying-glass"></i> ANALIZAR Y GENERAR SOLUCIÓN</button>
+
+                <div class="diag-result-box" id="diagResultBox">
+                    <div class="result-header">
+                        <div>
+                            <strong id="resMotoName" style="font-size:1.1rem;">Yamaha MT-07</strong>
+                            <span style="display:block; font-size:.8rem; color:var(--text-muted);">Diagnóstico generado justo ahora</span>
+                        </div>
+                        <span class="result-badge" id="resUrgencia">Urgencia: Media</span>
+                    </div>
+                    <h4 style="color:var(--text-main); margin-bottom:.5rem;" id="resDiagnosticoTitle">Falla Posible Detectada</h4>
+                    <p style="color:var(--text-muted); font-size:.95rem; line-height:1.6; margin-bottom:1rem;" id="resDiagnosticoBody">--</p>
+                    <div style="background-color:#f8fafc; padding:1rem; border-radius:10px; border-left:4px solid #84cc16;">
+                        <strong>Solución recomendada:</strong>
+                        <p class="pre-line" style="color:var(--text-muted); font-size:.9rem; margin-top:.25rem;" id="resSolucion">--</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid" id="funciones">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <h3>Diagnóstico preciso</h3>
+                    <p>Interpreta códigos OBD y telemetría para detectar fallas antes de que escalen o causen daños graves al motor.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <h3>Historial verificable</h3>
+                    <p>Cada servicio, recorrido, cambio de aceite y lectura de sensores queda registrado automáticamente en una línea de tiempo.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                    <h3>Alertas a tiempo</h3>
+                    <p>Prioriza incidencias críticas y notifica al propietario o al taller en tiempo real desde cualquier lugar.</p>
+                </div>
+            </div>
+
+            <div class="bottom-grid">
+                <div class="history-card">
+                    <div class="history-header">
+                        <div>
+                            <h3>Historial de alertas</h3>
+                            <span style="font-size:.75rem; color:var(--text-muted);">Últimos eventos de la motocicleta</span>
+                        </div>
+                        <button class="btn-filter" id="btnFilter" onclick="toggleFiltroAlertas()">TODAS</button>
+                    </div>
+                    <div id="alertsContainer">
+                        <div class="alert-item" data-type="critical">
+                            <div class="alert-item-info"><div class="dot-critical"></div>
+                                <div><strong style="font-size:.9rem; display:block;">Presión de aceite irregular</strong><span style="font-size:.75rem; color:var(--text-muted);">P0521 • 10:42 AM</span></div></div>
+                            <span class="status-pill pill-critical">Crítica</span>
+                        </div>
+                        <div class="alert-item" data-type="warning">
+                            <div class="alert-item-info"><div class="dot-warning"></div>
+                                <div><strong style="font-size:.9rem; display:block;">Voltaje de batería bajo</strong><span style="font-size:.75rem; color:var(--text-muted);">P0562 • 09:18 AM</span></div></div>
+                            <span class="status-pill pill-warning">Atención</span>
+                        </div>
+                        <div class="alert-item" data-type="success">
+                            <div class="alert-item-info"><div class="dot-success"></div>
+                                <div><strong style="font-size:.9rem; display:block;">Temperatura estabilizada</strong><span style="font-size:.75rem; color:var(--text-muted);">SYS-04 • Ayer</span></div></div>
+                            <span class="status-pill pill-success">Resuelta</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="maint-card">
+                    <h3>Próximo mantenimiento</h3>
+                    <div class="maint-ring-box">
+                        <div class="maint-ring"><div class="maint-ring-inner">1,580</div></div>
+                        <div>
+                            <span style="font-size:.7rem; color:var(--accent-lime); font-weight:800; display:block;">KM RESTANTES</span>
+                            <strong style="font-size:.95rem;">Cambio de aceite + filtro</strong>
+                        </div>
+                    </div>
+                    <ul class="maint-list">
+                        <li>12 Jun 2026 - Revisión de frenos</li>
+                        <li>04 Mar 2026 - Cambio de neumáticos</li>
+                        <li>18 Dic 2025 - Servicio general</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mobile-section" id="app">
+        <div class="phone-mockup">
+            <div class="phone-screen">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <strong style="font-size:.85rem;">MOTOSTAR</strong><i class="fa-solid fa-user-circle"></i>
+                </div>
+                <div style="background-color:var(--bg-dark); padding:.75rem; border-radius:12px; text-align:center; margin-bottom:1rem;">
+                    <span style="font-size:.65rem; color:#94a3b8; display:block;">ESTADO GENERAL</span>
+                    <strong style="font-size:1.1rem; color:var(--accent-lime);">Todo en orden 92%</strong>
+                </div>
+                <span style="font-size:.7rem; color:#94a3b8;">Actividad reciente</span>
+                <div style="font-size:.75rem; margin-top:.5rem; display:flex; flex-direction:column; gap:.5rem;">
+                    <div style="display:flex; justify-content:space-between;"><span>✓ Diagnóstico completado</span><small style="color:#64748b;">Ahora</small></div>
+                    <div style="display:flex; justify-content:space-between;"><span>✓ Ruta registrada</span><small style="color:#64748b;">Ayer</small></div>
+                    <div style="display:flex; justify-content:space-between;"><span>✓ Mantenimiento añadido</span><small style="color:#64748b;">Ayer</small></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="subtitle">MOTOSTAR EN TU BOLSILLO</span>
+            <h2 class="section-title" style="margin-bottom:1rem;">La tranquilidad viaja contigo.</h2>
+            <p style="color:#475569; line-height:1.6; margin-bottom:1.5rem;">Recibe alertas al instante, consulta el historial y comparte diagnósticos técnicos detallados con tu taller desde la aplicación.</p>
+            <ul style="list-style:none; margin-bottom:1.5rem; display:flex; flex-direction:column; gap:.5rem; font-weight:600;">
+                <li><i class="fa-solid fa-circle-check" style="color:#84cc16;"></i> Notificaciones críticas en tiempo real</li>
+                <li><i class="fa-solid fa-circle-check" style="color:#84cc16;"></i> Historial sincronizado entre web y móvil</li>
+                <li><i class="fa-solid fa-circle-check" style="color:#84cc16;"></i> Reportes listos para compartir con tu mecánico</li>
+            </ul>
+            <div class="store-buttons">
+                <button class="btn-store" onclick="openModal('Descargar App', 'Redirigiendo a la App Store...')"><i class="fa-brands fa-apple"></i> App Store</button>
+                <button class="btn-store" onclick="openModal('Descargar App', 'Redirigiendo a Google Play Store...')"><i class="fa-brands fa-google-play"></i> Google Play</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-cta">
+        <div>
+            <h2 style="font-size:1.75rem;">Conoce tu moto. Anticipate al problema.</h2>
+            <p style="color:#94a3b8; font-size:.9rem; margin-top:.25rem;">Conecta tu primera motocicleta y obtén un diagnóstico inicial gratuito.</p>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap"><a class="btn-primary" href="register.html">CREAR CUENTA GRATIS</a><a class="btn-header" href="login.html" style="padding:.9rem 1.8rem;border-radius:30px">INICIAR SESIÓN</a></div>
+    </div>
+
+    <footer>
+        <div class="logo" style="font-size:1.1rem;"><i class="fa-solid fa-motorcycle"></i> MOTOSTAR</div>
+        <div>© 2026 Motostar • Privacidad • Términos • Ayuda</div>
+    </footer>
+
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <h3 id="modalTitle" style="margin-bottom:.5rem;">Título</h3>
+            <p id="modalBody" style="color:var(--text-muted); font-size:.9rem; margin-bottom:1.5rem;">Mensaje</p>
+            <button class="btn-primary" style="width:100%; justify-content:center;" onclick="closeModal()">Entendido</button>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/diagnostico.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

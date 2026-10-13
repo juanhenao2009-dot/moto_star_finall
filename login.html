@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - MOTOSTAR</title>
+    <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <main class="login-page">
+        <div class="login-card">
+            <a class="logo" href="index.html"><i class="fa-solid fa-motorcycle"></i> MOTOSTAR</a>
+            <p class="login-sub">Elige tu perfil e ingresa tus credenciales</p>
+
+            <div class="role-tabs">
+                <button type="button" class="role-tab" data-role="usuario" onclick="seleccionarRol('usuario')"><i class="fa-solid fa-user"></i> Usuario</button>
+                <button type="button" class="role-tab" data-role="mecanico" onclick="seleccionarRol('mecanico')"><i class="fa-solid fa-screwdriver-wrench"></i> Mecánico</button>
+                <button type="button" class="role-tab" data-role="admin" onclick="seleccionarRol('admin')"><i class="fa-solid fa-user-shield"></i> Administrador</button>
+            </div>
+
+            <form id="loginForm" novalidate>
+                <div class="login-error" id="loginError"></div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" class="form-input" placeholder="tucorreo@ejemplo.com" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn-login">INGRESAR</button>
+            </form>
+
+            <div class="demo-box">
+                <strong>Cuentas de prueba</strong><br>
+                Perfil <b id="demoRol">Usuario</b>: usa el botón para rellenar los datos de demostración.
+                <br><button type="button" onclick="llenarDemo()"><i class="fa-solid fa-wand-magic-sparkles"></i> Rellenar datos de prueba</button>
+            </div>
+            <p class="back-link" style="margin-top:1rem">¿No tienes cuenta? <a href="register.html" style="color:#4d7c0f;font-weight:700">Crear cuenta</a></p>
+            <a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

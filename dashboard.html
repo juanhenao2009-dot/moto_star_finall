@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel - MOTOSTAR</title>
+    <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <a class="logo" href="index.html"><i class="fa-solid fa-motorcycle"></i> MOTOSTAR</a>
+            <nav class="menu" id="menu"></nav>
+            <div class="user-card">
+                <strong id="userName">-</strong>
+                <span class="role-badge" id="userRole">-</span>
+                <button class="btn-logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+            </div>
+        </aside>
+        <main class="main" id="view"></main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/diagnostico.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
